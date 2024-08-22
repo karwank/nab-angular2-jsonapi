@@ -7,9 +7,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Datastore } from '../../test/datastore.service';
 import { Chapter } from '../../test/models/chapter.model';
 
-let datastore: Datastore;
-
 describe('JsonApiModel', () => {
+  let datastore: Datastore;
 
   beforeEach(() => {
 
@@ -22,7 +21,7 @@ describe('JsonApiModel', () => {
       ]
     });
 
-    datastore = TestBed.get(Datastore);
+    datastore = TestBed.inject(Datastore);
   });
 
   describe('constructor', () => {
@@ -253,7 +252,6 @@ describe('JsonApiModel', () => {
         const DATA = getAuthorData(REL, BOOK_NUMBER);
         const INCLUDED = getIncludedBooks(
           BOOK_NUMBER,
-          // tslint:disable-next-line:max-line-length
           'books.chapters,books.firstChapter,books.firstChapter.firstSection,books.firstChapter.firstSection.firstParagraph',
           5
         );
@@ -271,7 +269,6 @@ describe('JsonApiModel', () => {
         const DATA = getAuthorData(REL, BOOK_NUMBER);
         const INCLUDED = getIncludedBooks(
           BOOK_NUMBER,
-          // tslint:disable-next-line:max-line-length
           'books.chapters,books.firstChapter,books.firstChapter.firstSection,books.firstChapter.firstSection.firstParagraph,books.firstChapter.firstSection.firstParagraph.firstSentence',
           5
         );

@@ -1,4 +1,4 @@
-export function getSampleSection(sectionId: string, chapterId: string, content: string = 'Dummy content') {
+export function getSampleSection(sectionId: string, chapterId: string, content = 'Dummy content') {
   return {
     id: sectionId,
     type: 'sections',

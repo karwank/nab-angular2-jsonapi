@@ -19,7 +19,7 @@ export const CATEGORY_ID = '1';
 
 export const CHAPTER_TITLE = 'The Return Journey';
 
-export function getAuthorData(relationship?: string, total: number = 0): any {
+export function getAuthorData(relationship?: string, total = 0): any {
   const response: any = {
     id: AUTHOR_ID,
     type: 'authors',
@@ -57,7 +57,7 @@ export function getAuthorData(relationship?: string, total: number = 0): any {
   return response;
 }
 
-export function getIncludedBooks(totalBooks: number, relationship?: string, totalChapters: number = 0): any[] {
+export function getIncludedBooks(totalBooks: number, relationship?: string, totalChapters = 0): any[] {
   const responseArray: any[] = [];
   let chapterId = 0;
 

@@ -1,4 +1,3 @@
-/* tslint:disable:variable-name */
 import { Book } from './book.model';
 import { JsonApiModelConfig } from '../../src/decorators/json-api-model-config.decorator';
 import { JsonApiModel } from '../../src/models/json-api.model';
@@ -24,7 +23,7 @@ export class Chapter extends JsonApiModel {
   updated_at: Date;
 
   @BelongsTo()
-  book: Book;
+  book: Book | any;
 
   @BelongsTo()
   firstSection: Section;

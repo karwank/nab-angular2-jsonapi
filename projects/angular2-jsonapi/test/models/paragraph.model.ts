@@ -13,8 +13,8 @@ export class Paragraph extends JsonApiModel {
   content: string;
 
   @BelongsTo()
-  section: Section;
+  section: Section | any;
 
   @BelongsTo()
-  firstSentence: Sentence;
+  firstSentence: Sentence | any;
 }

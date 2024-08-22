@@ -10,6 +10,7 @@ import { Thing } from './models/thing';
 import { ThingCategory } from './models/thingCategory';
 import { JsonApiDatastoreConfig } from '../src/decorators/json-api-datastore-config.decorator';
 import { JsonApiDatastore } from '../src/services/json-api-datastore.service';
+import { Injectable } from '@angular/core';
 
 export const BASE_URL = 'http://localhost:8080';
 export const API_VERSION = 'v1';
@@ -29,6 +30,7 @@ export const API_VERSION = 'v1';
     thing_category: ThingCategory
   }
 })
+@Injectable()
 export class Datastore extends JsonApiDatastore {
   constructor(http: HttpClient) {
     super(http);

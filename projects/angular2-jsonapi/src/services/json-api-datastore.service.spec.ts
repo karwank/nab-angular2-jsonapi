@@ -17,9 +17,7 @@ import { getSampleThing } from '../../test/fixtures/thing.fixture';
 import { ModelConfig } from '../interfaces/model-config.interface';
 import { JsonApiQueryData } from '../models/json-api-query-data';
 
-let datastore: Datastore;
-let datastoreWithConfig: DatastoreWithConfig;
-let httpMock: HttpTestingController;
+
 
 // workaround, see https://github.com/angular/angular/pull/8961
 class MockError extends Response implements Error {
@@ -28,6 +26,10 @@ class MockError extends Response implements Error {
 }
 
 describe('JsonApiDatastore', () => {
+  let datastore: Datastore;
+  let datastoreWithConfig: DatastoreWithConfig;
+  let httpMock: HttpTestingController;
+  
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -38,10 +40,9 @@ describe('JsonApiDatastore', () => {
         DatastoreWithConfig,
       ]
     });
-
-    datastore = TestBed.get(Datastore);
-    datastoreWithConfig = TestBed.get(DatastoreWithConfig);
-    httpMock = TestBed.get(HttpTestingController);
+    datastore = TestBed.inject(Datastore);
+    datastoreWithConfig = TestBed.inject(DatastoreWithConfig);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => {
@@ -69,7 +70,6 @@ describe('JsonApiDatastore', () => {
       queryRequest.flush({data: []});
     });
 
-    // tslint:disable-next-line:max-line-length
     it('should use apiVersion and modelEnpointUrl from the model instead of datastore if model has apiVersion and/or modelEndpointUrl specified', () => {
       const authorModelConfig: ModelConfig = Reflect.getMetadata('JsonApiModelConfig', CustomAuthor);
       const expectedUrl = `${BASE_URL_FROM_CONFIG}/${AUTHOR_API_VERSION}/${AUTHOR_MODEL_ENDPOINT_URL}`;
@@ -104,7 +104,6 @@ describe('JsonApiDatastore', () => {
         }
       };
 
-      // tslint:disable-next-line:prefer-template
       const expectedUrl = `${BASE_URL}/${API_VERSION}/` + 'authors?' +
         encodeURIComponent('page[size]') + '=10&' +
         encodeURIComponent('page[number]') + '=1&' +

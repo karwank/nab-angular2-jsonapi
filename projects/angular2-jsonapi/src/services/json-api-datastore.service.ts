@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { find } from 'lodash-es';
@@ -20,7 +21,6 @@ export type ModelType<T extends JsonApiModel> = new(datastore: JsonApiDatastore,
  * TypeScript 2.9.x
  * See https://github.com/Microsoft/TypeScript/issues/24587.
  */
-// tslint:disable-next-line:variable-name
 const AttributeMetadataIndex: string = AttributeMetadata as any;
 
 @Injectable()
@@ -460,6 +460,7 @@ export class JsonApiDatastore {
       }
     }
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     res[AttributeMetadataIndex] = attributesMetadata;
     return res;

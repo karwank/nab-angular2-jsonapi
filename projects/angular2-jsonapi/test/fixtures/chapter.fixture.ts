@@ -1,4 +1,4 @@
-export function getSampleChapter(i: number, chapterId: string, chapterTitle: string = 'Dummy title') {
+export function getSampleChapter(i: number, chapterId: string, chapterTitle = 'Dummy title') {
   return {
     id: chapterId,
     type: 'chapters',

@@ -1,6 +1,6 @@
 import { BOOK_PUBLISHED, BOOK_TITLE } from './author.fixture';
 
-export function getSampleBook(i: number, authorId: string, categoryId: string = '1') {
+export function getSampleBook(i: number, authorId: string, categoryId = '1') {
   return {
     id: '' + i,
     type: 'books',

@@ -16,5 +16,5 @@ export class Section extends JsonApiModel {
   firstParagraph: Paragraph;
 
   @BelongsTo()
-  chapter: Chapter;
+  chapter: Chapter | any;
 }

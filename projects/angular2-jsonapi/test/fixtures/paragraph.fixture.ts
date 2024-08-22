@@ -1,4 +1,4 @@
-export function getSampleParagraph(paragraphId: string, sectionId: string, content: string = 'Dummy content') {
+export function getSampleParagraph(paragraphId: string, sectionId: string, content = 'Dummy content') {
   return {
     id: paragraphId,
     type: 'paragraphs',

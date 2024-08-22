@@ -1,6 +1,6 @@
-export function getSampleThing(thingId: string = 'thing_1',
-                               thingCategoryId: string = 'thing_category_1',
-                               thingName: string = 'Thing One') {
+export function getSampleThing(thingId = 'thing_1',
+                               thingCategoryId = 'thing_category_1',
+                               thingName = 'Thing One') {
   return {
     data: [
       {

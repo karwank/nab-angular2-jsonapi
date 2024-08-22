@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 import { find, includes } from 'lodash-es';
 import { Observable } from 'rxjs';
 import { JsonApiDatastore, ModelType } from '../services/json-api-datastore.service';
@@ -12,7 +13,6 @@ import { HttpHeaders } from '@angular/common/http';
  * TypeScript 2.9.x
  * See https://github.com/Microsoft/TypeScript/issues/24587.
  */
-// tslint:disable-next-line:variable-name
 const AttributeMetadataIndex: string = AttributeMetadata as any;
 
 export class JsonApiModel {
@@ -128,7 +128,6 @@ export class JsonApiModel {
 
             if (!includes(modelTypesFetched, typeName)) {
               modelTypesFetched.push(typeName);
-              // tslint:disable-next-line:max-line-length
               const modelType: ModelType<this> = Reflect.getMetadata('JsonApiDatastoreConfig', this.internalDatastore.constructor).models[typeName];
 
               if (modelType) {
@@ -165,7 +164,6 @@ export class JsonApiModel {
           const dataRelationship: any = (relationship.data instanceof Array) ? relationship.data[0] : relationship.data;
           if (dataRelationship) {
             const typeName: string = dataRelationship.type;
-            // tslint:disable-next-line:max-line-length
             const modelType: ModelType<this> = Reflect.getMetadata('JsonApiDatastoreConfig', this.internalDatastore.constructor).models[typeName];
 
             if (modelType) {

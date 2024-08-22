@@ -8,16 +8,16 @@
     "downlevelIteration": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "module": "esnext",
+    "module": "es2022",
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "es5",
+    "target": "ES2022",
     "typeRoots": [
       "node_modules/@types"
     ],
     "lib": [
-      "es2018",
-      "dom"
+      "es2022",
+      "dom",
     ],
     "paths": {
       "angular2-jsonapi": [
@@ -26,7 +26,8 @@
       "angular2-jsonapi/*": [
         "dist/angular2-jsonapi/*"
       ]
-    }
+    },
+    "useDefineForClassFields": false
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
