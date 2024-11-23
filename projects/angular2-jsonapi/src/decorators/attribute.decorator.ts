@@ -85,14 +85,13 @@ export function Attribute(options: AttributeDecoratorOptions = {}): PropertyDeco
       setMetadata(this, oldValue, convertedValue);
     };
 
-    if (delete target[propertyName]) {
-      saveAnnotations();
-      Object.defineProperty(target, propertyName, {
-        get: getter,
-        set: setter,
-        enumerable: true,
-        configurable: true
-      });
-    }
+    Object.defineProperty(target, propertyName, {
+      get: getter,
+      set: setter,
+      enumerable: true,
+      configurable: true
+    });
+
+    saveAnnotations();
   };
 }
