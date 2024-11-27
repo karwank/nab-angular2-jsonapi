@@ -1,6 +1,6 @@
 {
   "name": "nab-angular2-jsonapi",
-  "version": "19.0.0-alpha.1",
+  "version": "19.0.0-alpha.4",
   "description": "A lightweight Angular 19 adapter for JSON API",
   "repository": {
     "type": "git",

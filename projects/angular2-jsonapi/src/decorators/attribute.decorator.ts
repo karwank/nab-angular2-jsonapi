@@ -14,17 +14,13 @@ export function Attribute(options: AttributeDecoratorOptions = {}): PropertyDeco
         attrConverter = new DateConverter();
       } else {
         const datatype = new dataType();
-
         if (datatype.mask && datatype.unmask) {
           attrConverter = datatype;
         }
       }
 
       if (attrConverter) {
-        if (!forSerialisation) {
-          return attrConverter.mask(value);
-        }
-        return attrConverter.unmask(value);
+        return !forSerialisation ? attrConverter.mask(value) : attrConverter.unmask(value);
       }
 
       return value;
@@ -32,66 +28,54 @@ export function Attribute(options: AttributeDecoratorOptions = {}): PropertyDeco
 
     const saveAnnotations = () => {
       const metadata = Reflect.getMetadata('Attribute', target) || {};
-
-      metadata[propertyName] = {
-        marked: true
-      };
-
+      metadata[propertyName] = { marked: true };
       Reflect.defineMetadata('Attribute', metadata, target);
 
       const mappingMetadata = Reflect.getMetadata('AttributeMapping', target) || {};
-      const serializedPropertyName = options.serializedName !== undefined ? options.serializedName : propertyName;
+      const serializedPropertyName = options.serializedName ?? propertyName;
       mappingMetadata[serializedPropertyName] = propertyName;
       Reflect.defineMetadata('AttributeMapping', mappingMetadata, target);
     };
 
-    const setMetadata = (
-      instance: any,
-      oldValue: any,
-      newValue: any
-    ) => {
-      const targetType = Reflect.getMetadata('design:type', target, propertyName);
-
-      if (!instance[AttributeMetadata]) {
-        instance[AttributeMetadata] = {};
-      }
-      instance[AttributeMetadata][propertyName] = {
-        newValue,
-        oldValue,
-        nested: false,
-        serializedName: options.serializedName,
-        hasDirtyAttributes: !_.isEqual(oldValue, newValue),
-        serialisationValue: converter(targetType, newValue, true)
-      };
-    };
-
-    const getter = function() {
-      return this[`_${propertyName}`];
-    };
-
-    const setter = function(newVal: any) {
-      const targetType = Reflect.getMetadata('design:type', target, propertyName);
-      const convertedValue = converter(targetType, newVal);
-      let oldValue = null;
-      if (this.isModelInitialization() && this.id) {
-        oldValue = converter(targetType, newVal);
-      } else {
-        if (this[AttributeMetadata] && this[AttributeMetadata][propertyName]) {
-          oldValue = this[AttributeMetadata][propertyName].oldValue;
-        }
-      }
-
-      this[`_${propertyName}`] = convertedValue;
-      setMetadata(this, oldValue, convertedValue);
-    };
-
-    Object.defineProperty(target, propertyName, {
-      get: getter,
-      set: setter,
-      enumerable: true,
-      configurable: true
-    });
-
     saveAnnotations();
+
+    const originalConstructor = target.constructor;
+
+    function newConstructor(...args: any[]) {
+      const instance = new originalConstructor(...args);
+
+      // Dodanie getter i setter na poziomie instancji
+      Object.defineProperty(instance, propertyName, {
+        get() {
+          return instance[`_${propertyName}`];
+        },
+        set(newVal: any) {
+          const targetType = Reflect.getMetadata('design:type', target, propertyName);
+          const convertedValue = converter(targetType, newVal);
+          const oldValue = instance[`_${propertyName}`];
+
+          instance[`_${propertyName}`] = convertedValue;
+
+          if (!instance[AttributeMetadata]) {
+            instance[AttributeMetadata] = {};
+          }
+          instance[AttributeMetadata][propertyName] = {
+            newValue: convertedValue,
+            oldValue,
+            nested: false,
+            serializedName: options.serializedName,
+            hasDirtyAttributes: !_.isEqual(oldValue, convertedValue),
+            serialisationValue: converter(targetType, convertedValue, true),
+          };
+        },
+        enumerable: true,
+        configurable: true,
+      });
+
+      return instance;
+    }
+
+    newConstructor.prototype = originalConstructor.prototype;
+    return newConstructor;
   };
 }
